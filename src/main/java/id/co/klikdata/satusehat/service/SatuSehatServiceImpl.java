@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import id.co.klikdata.satusehat.dto.PatientResponse;
+import id.co.klikdata.satusehat.dto.PractitionerResponse;
 import id.co.klikdata.satusehat.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,27 @@ public class SatuSehatServiceImpl implements SatuSehatService {
 
     @Value("${satusehat.uriAuth}")
     private String uriAuth;
+
+    @Override
+    public PractitionerResponse getDokterByNik(String nik) {
+        try {
+            String token = getAccessToken().getAccessToken();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(token);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+            ResponseEntity<PractitionerResponse> response = restTemplate.exchange(
+                    "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Practitioner?identifier=https://fhir.kemkes.go.id/id/nik|"
+                            + nik,
+                    HttpMethod.GET, request,
+                    PractitionerResponse.class);
+            return response.getBody();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
     @Override
     public PatientResponse getPasientByNik(String nik) {

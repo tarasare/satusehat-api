@@ -1,10 +1,9 @@
 package id.co.klikdata.satusehat.service;
 
-import id.co.klikdata.satusehat.dto.PatientResponse;
 import id.co.klikdata.satusehat.dto.PractitionerResponse;
 
-public interface SatuSehatService {
-    PatientResponse getPasientByNik(String nik);
+public interface DokterService {
 
     PractitionerResponse getDokterByNik(String nik);
+
 }
