@@ -11,6 +11,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import id.co.klikdata.satusehat.dto.PatientResponse;
 import id.co.klikdata.satusehat.dto.PractitionerResponse;
 import id.co.klikdata.satusehat.dto.TokenResponse;
@@ -51,6 +56,7 @@ public class SatuSehatServiceImpl implements SatuSehatService {
         }
     }
 
+    // PASIEN SERVICE
     @Override
     public PatientResponse getPasientByNik(String nik) {
         try {
@@ -65,10 +71,38 @@ public class SatuSehatServiceImpl implements SatuSehatService {
                             + nik,
                     HttpMethod.GET, request,
                     PatientResponse.class);
+
             return response.getBody();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public ResponseEntity<JsonNode> getPasienByNameGenderAndBirthdate(String name, String gender, String birthdate)
+            throws JsonMappingException, JsonProcessingException {
+        try {
+            String token = getAccessToken().getAccessToken();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(token);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.add("name", name);
+            params.add("birthdate", birthdate);
+            params.add("gender", gender);
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Patient",
+                    HttpMethod.GET, request,
+                    String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            return ResponseEntity.ok(jsonNode);
+        } catch (Exception e) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(e.getMessage());
+            return ResponseEntity.ok(jsonNode);
         }
     }
 

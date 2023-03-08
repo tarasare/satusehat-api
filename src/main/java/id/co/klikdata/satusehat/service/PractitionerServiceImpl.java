@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DokterServiceImpl implements DokterService {
+public class PractitionerServiceImpl implements PractitionerService {
     private final SatuSehatService satuSehatService;
 
     @Override
