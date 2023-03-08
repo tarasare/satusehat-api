@@ -9,11 +9,11 @@ import id.co.klikdata.satusehat.dto.PatientResponse;
 @SpringBootTest
 public class SatuSehatServiceTest {
     @Autowired
-    private SatuSehatService satuSehatService;
+    private PasienService pasienService;
 
     @Test
     public void getDataPasienTest() {
-        PatientResponse data = satuSehatService.getPasientByNik("3171022809990001");
+        PatientResponse data = pasienService.getPasienByNik("3171022809990001");
         System.out.println(data);
     }
 }
