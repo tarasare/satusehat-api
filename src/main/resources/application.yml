@@ -1,6 +1,20 @@
 server:
   port: 80
 
+spring:
+  datasource:
+    username: support
+    password: Supp0rt
+    url: jdbc:mysql://192.168.43.189/db_e
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
 satusehat:
   clientId: hUvb6wOJuteso9wHR83ie8olgxGdh5p04AuTDLoa8RAM5974
   clientSecret: cACVrJF2TbGHGeSXWS6TxxLFrC2KaigvVpaOpN1wMD87JZEI8dkNuZ3GWpDLQAFR

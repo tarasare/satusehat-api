@@ -3,7 +3,6 @@ package id.co.klikdata.satusehat.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,19 +10,14 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import id.co.klikdata.satusehat.dto.PatientResponse;
-import id.co.klikdata.satusehat.dto.PractitionerResponse;
 import id.co.klikdata.satusehat.dto.TokenResponse;
+import id.co.klikdata.satusehat.utils.SatuSehat;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class SatuSehatServiceImpl implements SatuSehatService {
     private final RestTemplate restTemplate;
-
-    private final static String URL_AUTH = "https://api-satusehat-dev.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials";
-    private final static String URL_PASIEN = "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Patient";
-    private final static String URL_PRACTITIONER = "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Practitioner";
 
     @Value("${satusehat.clientId}")
     private String clientId;
@@ -39,7 +33,8 @@ public class SatuSehatServiceImpl implements SatuSehatService {
         map.add("client_id", clientId);
         map.add("client_secret", clientSecret);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-        ResponseEntity<TokenResponse> response = restTemplate.postForEntity(URL_AUTH, request, TokenResponse.class);
+        ResponseEntity<TokenResponse> response = restTemplate.postForEntity(SatuSehat.URL_AUTH, request,
+                TokenResponse.class);
         return response.getBody();
     }
 
