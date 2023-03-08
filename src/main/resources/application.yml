@@ -2,6 +2,5 @@ server:
   port: 80
 
 satusehat:
-  uriAuth: https://api-satusehat-dev.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials
   clientId: hUvb6wOJuteso9wHR83ie8olgxGdh5p04AuTDLoa8RAM5974
   clientSecret: cACVrJF2TbGHGeSXWS6TxxLFrC2KaigvVpaOpN1wMD87JZEI8dkNuZ3GWpDLQAFR

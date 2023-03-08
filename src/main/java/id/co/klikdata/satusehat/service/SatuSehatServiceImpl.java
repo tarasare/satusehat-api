@@ -26,6 +26,9 @@ import lombok.RequiredArgsConstructor;
 public class SatuSehatServiceImpl implements SatuSehatService {
     private final RestTemplate restTemplate;
 
+    private final static String URL_AUTH = "https://api-satusehat-dev.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials";
+    private final static String URL_PASIEN = "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Patient";
+
     @Value("${satusehat.clientId}")
     private String clientId;
 
@@ -67,7 +70,7 @@ public class SatuSehatServiceImpl implements SatuSehatService {
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
             ResponseEntity<PatientResponse> response = restTemplate.exchange(
-                    "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Patient?identifier=https://fhir.kemkes.go.id/id/nik|"
+                    URL_PASIEN + "?identifier=https://fhir.kemkes.go.id/id/nik|"
                             + nik,
                     HttpMethod.GET, request,
                     PatientResponse.class);
@@ -88,18 +91,17 @@ public class SatuSehatServiceImpl implements SatuSehatService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setBearerAuth(token);
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("name", name);
-            params.add("birthdate", birthdate);
-            params.add("gender", gender);
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
             ResponseEntity<String> response = restTemplate.exchange(
-                    "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Patient",
+                    URL_PASIEN + "?name=" + name + "&birthdate="
+                            + birthdate + "&gender=" + gender,
                     HttpMethod.GET, request,
                     String.class);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            return ResponseEntity.ok(jsonNode);
+            return ResponseEntity.status(response.getStatusCode()).body(jsonNode);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(e.getMessage());
             return ResponseEntity.ok(jsonNode);
@@ -112,9 +114,8 @@ public class SatuSehatServiceImpl implements SatuSehatService {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("client_id", clientId);
         map.add("client_secret", clientSecret);
-
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-        ResponseEntity<TokenResponse> response = restTemplate.postForEntity(uriAuth, request, TokenResponse.class);
+        ResponseEntity<TokenResponse> response = restTemplate.postForEntity(URL_AUTH, request, TokenResponse.class);
         return response.getBody();
     }
 
