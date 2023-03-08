@@ -10,7 +10,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import id.co.klikdata.satusehat.dao.SettingsDao;
 import id.co.klikdata.satusehat.dto.TokenResponse;
+import id.co.klikdata.satusehat.entity.Settings;
 import id.co.klikdata.satusehat.utils.SatuSehat;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SatuSehatServiceImpl implements SatuSehatService {
     private final RestTemplate restTemplate;
+    private final SettingsDao settingsDao;
 
     @Value("${satusehat.clientId}")
     private String clientId;
@@ -27,11 +30,12 @@ public class SatuSehatServiceImpl implements SatuSehatService {
 
     @Override
     public TokenResponse getAccessToken() {
+        Settings settings = settingsDao.findAll().get(0);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("client_id", clientId);
-        map.add("client_secret", clientSecret);
+        map.add("client_id", settings.getClientKey());
+        map.add("client_secret", settings.getSecretKey());
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         ResponseEntity<TokenResponse> response = restTemplate.postForEntity(SatuSehat.URL_AUTH, request,
                 TokenResponse.class);
