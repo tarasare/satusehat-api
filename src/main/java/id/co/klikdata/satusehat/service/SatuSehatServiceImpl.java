@@ -32,50 +32,6 @@ public class SatuSehatServiceImpl implements SatuSehatService {
     private String clientSecret;
 
     @Override
-    public PractitionerResponse getDokterByNik(String nik) {
-        try {
-            String token = getAccessToken().getAccessToken();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(token);
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-            ResponseEntity<PractitionerResponse> response = restTemplate.exchange(
-                    URL_PRACTITIONER + "?identifier=https://fhir.kemkes.go.id/id/nik|"
-                            + nik,
-                    HttpMethod.GET, request,
-                    PractitionerResponse.class);
-            return response.getBody();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-
-    // PASIEN SERVICE
-    @Override
-    public PatientResponse getPasientByNik(String nik) {
-        try {
-            String token = getAccessToken().getAccessToken();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(token);
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-            ResponseEntity<PatientResponse> response = restTemplate.exchange(
-                    URL_PASIEN + "?identifier=https://fhir.kemkes.go.id/id/nik|"
-                            + nik,
-                    HttpMethod.GET, request,
-                    PatientResponse.class);
-
-            return response.getBody();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
     public TokenResponse getAccessToken() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
