@@ -11,11 +11,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import id.co.klikdata.satusehat.dto.PatientResponse;
 import id.co.klikdata.satusehat.dto.PractitionerResponse;
 import id.co.klikdata.satusehat.dto.TokenResponse;
@@ -28,15 +23,13 @@ public class SatuSehatServiceImpl implements SatuSehatService {
 
     private final static String URL_AUTH = "https://api-satusehat-dev.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials";
     private final static String URL_PASIEN = "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Patient";
+    private final static String URL_PRACTITIONER = "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Practitioner";
 
     @Value("${satusehat.clientId}")
     private String clientId;
 
     @Value("${satusehat.clientSecret}")
     private String clientSecret;
-
-    @Value("${satusehat.uriAuth}")
-    private String uriAuth;
 
     @Override
     public PractitionerResponse getDokterByNik(String nik) {
@@ -48,7 +41,7 @@ public class SatuSehatServiceImpl implements SatuSehatService {
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
             ResponseEntity<PractitionerResponse> response = restTemplate.exchange(
-                    "https://api-satusehat-dev.dto.kemkes.go.id/fhir-r4/v1/Practitioner?identifier=https://fhir.kemkes.go.id/id/nik|"
+                    URL_PRACTITIONER + "?identifier=https://fhir.kemkes.go.id/id/nik|"
                             + nik,
                     HttpMethod.GET, request,
                     PractitionerResponse.class);
@@ -83,32 +76,7 @@ public class SatuSehatServiceImpl implements SatuSehatService {
     }
 
     @Override
-    public ResponseEntity<JsonNode> getPasienByNameGenderAndBirthdate(String name, String gender, String birthdate)
-            throws JsonMappingException, JsonProcessingException {
-        try {
-            String token = getAccessToken().getAccessToken();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(token);
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-            ResponseEntity<String> response = restTemplate.exchange(
-                    URL_PASIEN + "?name=" + name + "&birthdate="
-                            + birthdate + "&gender=" + gender,
-                    HttpMethod.GET, request,
-                    String.class);
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            return ResponseEntity.status(response.getStatusCode()).body(jsonNode);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(e.getMessage());
-            return ResponseEntity.ok(jsonNode);
-        }
-    }
-
-    private TokenResponse getAccessToken() {
+    public TokenResponse getAccessToken() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

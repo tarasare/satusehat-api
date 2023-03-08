@@ -25,11 +25,4 @@ public class PasienController {
     public ResponseEntity<PatientResponse> getPasienByNik(@PathVariable("nik") String nik) {
         return ResponseEntity.ok(pasienService.getPasienByNik(nik));
     }
-
-    @GetMapping()
-    public ResponseEntity<JsonNode> getPasienByNameGenderAndBirthdate(@RequestParam("name") String name,
-            @RequestParam("gender") String gender, @RequestParam("birthdate") String birthdate)
-            throws JsonMappingException, JsonProcessingException {
-        return pasienService.getPasienByNameGenderAndBirthdate(name, gender, birthdate);
-    }
 }

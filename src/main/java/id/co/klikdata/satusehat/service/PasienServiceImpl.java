@@ -1,29 +1,39 @@
 package id.co.klikdata.satusehat.service;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import id.co.klikdata.satusehat.dto.PatientResponse;
+import id.co.klikdata.satusehat.utils.SatuSehat;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class PasienServiceImpl implements PasienService {
+    private final RestTemplate restTemplate;
     private final SatuSehatService satuSehatService;
 
     @Override
     public PatientResponse getPasienByNik(String nik) {
-        return satuSehatService.getPasientByNik(nik);
-    }
-
-    @Override
-    public ResponseEntity<JsonNode> getPasienByNameGenderAndBirthdate(String name, String gender, String birthdate)
-            throws JsonMappingException, JsonProcessingException {
-        return satuSehatService.getPasienByNameGenderAndBirthdate(name, gender, birthdate);
+        String token = satuSehatService.getAccessToken().getAccessToken();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+        ResponseEntity<PatientResponse> response = restTemplate.exchange(
+                SatuSehat.URL_PASIEN + "?identifier=https://fhir.kemkes.go.id/id/nik|"
+                        + nik,
+                HttpMethod.GET, request,
+                PatientResponse.class);
+        return response.getBody();
     }
 
 }
