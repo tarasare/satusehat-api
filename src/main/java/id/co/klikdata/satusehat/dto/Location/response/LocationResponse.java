@@ -15,17 +15,17 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationResponse {
-    private String mode;
     private List<Identifier> identifier;
+    private Address address;
+    private PhysicalType physicalType;
+    private String description;
+    private String mode;
     private ManagingOrganization managingOrganization;
     private Meta meta;
     private String name;
-    private PhysicalType physicalType;
-    private String description;
     private List<Telecom> telecom;
-    private String id;
+    private UUID id;
     private Position position;
     private String resourceType;
     private String status;
-
 }

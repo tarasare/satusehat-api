@@ -70,7 +70,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         List<Extension> extension = new ArrayList<>();
         List<ValueExtension> extensionVal = new ArrayList<>();
         extensionVal.add(new ValueExtension("province", settings.getProvinsi()));
-        extensionVal.add(new ValueExtension("city", settings.getKabupaten()));
+        extensionVal.add(new ValueExtension("ci ty", settings.getKabupaten()));
         extensionVal.add(new ValueExtension("district", settings.getKecamatan()));
         extensionVal.add(new ValueExtension("village", settings.getKelurahan()));
         extension.add(

@@ -16,6 +16,7 @@ import java.util.List;
 public class LocationRequest {
     private String mode;
     private List<Identifier> identifier;
+    private Address address;
     private ManagingOrganization managingOrganization;
     private String name;
     private PhysicalType physicalType;
