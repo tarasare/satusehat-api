@@ -15,4 +15,5 @@ public class Kabupaten {
     private Integer idProv;
     private String isactive;
     private String idKemendagri;
+    private String namaKemendagri;
 }

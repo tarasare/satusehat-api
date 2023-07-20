@@ -16,6 +16,9 @@ import id.co.klikdata.satusehat.entity.Settings;
 import id.co.klikdata.satusehat.utils.SatuSehat;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SatuSehatServiceImpl implements SatuSehatService {
@@ -29,6 +32,7 @@ public class SatuSehatServiceImpl implements SatuSehatService {
     private String clientSecret;
 
     @Override
+
     public TokenResponse getAccessToken() {
         Settings settings = settingsDao.findAll().get(0);
         HttpHeaders headers = new HttpHeaders();
@@ -39,6 +43,7 @@ public class SatuSehatServiceImpl implements SatuSehatService {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         ResponseEntity<TokenResponse> response = restTemplate.postForEntity(SatuSehat.URL_AUTH, request,
                 TokenResponse.class);
+
         return response.getBody();
     }
 

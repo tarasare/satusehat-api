@@ -6,15 +6,9 @@ import lombok.Data;
 
 @Data
 public class KecamatanDto {
-    @JsonProperty("kode_bps")
-    private String kodeBps;
-
-    @JsonProperty("nama_bps")
-    private String namaBps;
-
-    @JsonProperty("kode_dagri")
-    private String kodeDagri;
-
-    @JsonProperty("nama_dagri")
-    private String namaDagri;
+    private Long id;
+    private String kode;
+    private String nama;
+    @JsonProperty("id_kabupaten")
+    private Long idKabupaten;
 }
