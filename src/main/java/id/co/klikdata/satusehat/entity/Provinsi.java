@@ -14,7 +14,7 @@ public class Provinsi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProv;
-    private String namaProvinsi;
+    private String namaProvinsi; 
     private String isactive;
     private String idKemendagri;
 }

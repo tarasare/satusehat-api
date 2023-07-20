@@ -69,10 +69,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         String[] line = { settings.getAlamat() };
         List<Extension> extension = new ArrayList<>();
         List<ValueExtension> extensionVal = new ArrayList<>();
-        extensionVal.add(new ValueExtension("province", settings.getProvinsi()));
-        extensionVal.add(new ValueExtension("ci ty", settings.getKabupaten()));
-        extensionVal.add(new ValueExtension("district", settings.getKecamatan()));
-        extensionVal.add(new ValueExtension("village", settings.getKelurahan()));
+        extensionVal.add(new ValueExtension(settings.getProvinsi().getNamaProvinsi(), settings.getProvinsi().getIdKemendagri()));
+        extensionVal.add(new ValueExtension(settings.getKabupaten().getNamaKabkota(), settings.getKabupaten().getIdKemendagri()));
+        extensionVal.add(new ValueExtension(settings.getKecamatan().getNamaKecamatan(), settings.getKecamatan().getIdKemendagri()));
+        extensionVal.add(new ValueExtension(settings.getKelurahan().getNamaDesa(), settings.getKelurahan().getIdKemendagri()));
         extension.add(
                 new Extension("https://fhir.kemkes.go.id/r4/StructureDefinition/administrativeCode", extensionVal));
         address.add(new Address("work", "both", line, settings.getNamaKabKota(), settings.getKode(), "ID", extension));

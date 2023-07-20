@@ -35,25 +35,26 @@ public class Settings {
     @JsonProperty("rs_alamat")
     private String alamat;
 
-    @Column(name = "id_prov")
-    @JsonProperty("id_prov")
-    private String provinsi;
+    @ManyToOne() 
+    @JoinColumn(name = "id_prov" )
+    private Provinsi provinsi;
 
-    @Column(name = "id_kabkota")
-    @JsonProperty("id_kabkota")
-    private String kabupaten;
+    @ManyToOne()
+    @JoinColumn(name = "id_kabkota")
+    private Kabupaten kabupaten;
 
-    @Column(name = "rs_kabkota")
+
+   @ManyToOne()
+   @JoinColumn(name = "id_kec")
+    private Kecamatan kecamatan;
+
+    @ManyToOne()
+    @JoinColumn(name = "id_kel")
+    private Kelurahan kelurahan;
+
+        @Column(name = "rs_kabkota")
     @JsonProperty("rs_kabkota")
     private String namaKabKota;
-
-    @Column(name = "id_kec")
-    @JsonProperty("id_kec")
-    private String kecamatan;
-
-    @Column(name = "id_kel")
-    @JsonProperty("id_kel")
-    private String kelurahan;
 
     @Column(name = "rs_kode")
     @JsonProperty("rs_kode")

@@ -1,11 +1,11 @@
 server:
-  port: 80
+  port: 8088
 
 spring:
   datasource:
     username: support
     password: Supp0rt
-    url: jdbc:mysql://192.168.43.189/db_e
+    url: jdbc:mysql://localhost/db_e
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
