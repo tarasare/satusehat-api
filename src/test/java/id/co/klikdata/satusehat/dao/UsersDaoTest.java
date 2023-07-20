@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import id.co.klikdata.satusehat.entity.Pasien;
+import id.co.klikdata.satusehat.entity.Users;
 
 @SpringBootTest
-public class PasienDaoTest {
+public class UsersDaoTest {
     @Autowired
-    private PasienDao pasienDao;
+    private UsersDao usersDao;
 
     @Test
     public void getPasienTest() {
-        Pasien pasien = pasienDao.findByNoIdentitasAndGrupUser("5271002009700008", 1);
-        System.out.println(pasien);
+        Users users = usersDao.findByNoIdentitasAndGrupUser("5271002009700008", 1);
+        System.out.println(users);
     }
 }

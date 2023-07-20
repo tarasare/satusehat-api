@@ -11,9 +11,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import id.co.klikdata.satusehat.dao.PasienDao;
+import id.co.klikdata.satusehat.dao.UsersDao;
 import id.co.klikdata.satusehat.dto.PractitionerResponse;
-import id.co.klikdata.satusehat.entity.Pasien;
+import id.co.klikdata.satusehat.entity.Users;
 import id.co.klikdata.satusehat.utils.SatuSehat;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class PractitionerServiceImpl implements PractitionerService {
     private final RestTemplate restTemplate;
     private final SatuSehatService satuSehatService;
-    private final PasienDao pasienDao;
+    private final UsersDao usersDao;
 
     @Override
     public PractitionerResponse getDokterByNik(String nik) {
@@ -38,9 +38,9 @@ public class PractitionerServiceImpl implements PractitionerService {
                 HttpMethod.GET, request,
                 PractitionerResponse.class);
         if (response.getStatusCode().equals(HttpStatus.OK) && response.getBody().getEntry() != null) {
-            Pasien pasien = pasienDao.findByNoIdentitasAndGrupUser(nik, 1);
-            pasien.setIdPetugasIhs(response.getBody().getEntry().get(0).getResource().getId());
-            pasienDao.save(pasien);
+            Users users = usersDao.findByNoIdentitasAndGrupUser(nik, 1);
+            users.setIdPetugasIhs(response.getBody().getEntry().get(0).getResource().getId());
+            usersDao.save(users);
         }
         return response.getBody();
     }

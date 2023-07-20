@@ -5,7 +5,7 @@ spring:
   datasource:
     username: support
     password: Supp0rt
-    url: jdbc:mysql://localhost/db_e
+    url: jdbc:mysql://192.168.10.159/db_e
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

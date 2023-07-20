@@ -45,9 +45,9 @@ public class LocationServiceImpl implements LocationService {
         req.setIdentifier(identifier);
 
         List<Telecom> telecom = new ArrayList<>();
-        telecom.add(new Telecom("phone", settings.getTelp(), "work"));
-        telecom.add(new Telecom("email", settings.getEmail(), "work"));
-        telecom.add(new Telecom("url", settings.getWebsite(), "work"));
+        telecom.add(new Telecom("phone",  "work", settings.getTelp()));
+        telecom.add(new Telecom("email",  "work", settings.getEmail()));
+        telecom.add(new Telecom("url", "work", settings.getWebsite()));
         req.setTelecom(telecom);
 
         String[] line = { settings.getAlamat() };
@@ -70,9 +70,9 @@ public class LocationServiceImpl implements LocationService {
         req.setAddress(address);
         List<Coding> codings = new ArrayList<>();
         codings.add(new Coding("http://terminology.hl7.org/CodeSystem/location-physical-type", "ro", "Room"));
-        req.getPhysicalType().setCoding(codings);
+        req.setPhysicalType(new PhysicalType(codings));
         req.setPosition(new Position(0, 0, 0));
-        req.setManagingOrganization(new ManagingOrganization("Organization/" + settings.getOrganizationId()));
+        req.setManagingOrganization(new ManagingOrganization("Organization/" + data.getGrupRuangan().getIdIhs()));
 
         String token = satuSehatService.getAccessToken().getAccessToken();
         HttpHeaders headers = new HttpHeaders();
@@ -85,8 +85,8 @@ public class LocationServiceImpl implements LocationService {
                 LocationResponse.class);
 
         if (response.getStatusCode().equals(HttpStatus.CREATED)) {
-//            data.setIdIhs(response.getBody().getId());
-//            grupRuanganDao.save(data);
+            data.setIdIhs(String.valueOf(response.getBody().getId()));
+            ruanganDao.save(data);
         }
 
         return response.getBody();

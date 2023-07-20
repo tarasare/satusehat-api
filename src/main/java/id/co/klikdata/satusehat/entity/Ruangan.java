@@ -15,6 +15,13 @@ public class Ruangan {
     @Column(name = "nama_ruangan")
     private String namaRuangan;
 
-    @Column(name = "id_grup_ruangan")
-    private String idGrupRuangan;
+//    @Column(name = "id_grup_ruangan")
+//    private String idGrupRuangan;
+
+    @Column(name = "id_ihs")
+    private String idIhs;
+
+    @ManyToOne
+    @JoinColumn(name = "id_grup_ruangan")
+    private GrupRuangan grupRuangan;
 }

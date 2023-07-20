@@ -11,9 +11,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import id.co.klikdata.satusehat.dao.PasienDao;
+import id.co.klikdata.satusehat.dao.UsersDao;
 import id.co.klikdata.satusehat.dto.PatientResponse;
-import id.co.klikdata.satusehat.entity.Pasien;
+import id.co.klikdata.satusehat.entity.Users;
 import id.co.klikdata.satusehat.utils.SatuSehat;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class PasienServiceImpl implements PasienService {
     private final RestTemplate restTemplate;
     private final SatuSehatService satuSehatService;
-    private final PasienDao pasienDao;
+    private final UsersDao usersDao;
 
     @Override
     public PatientResponse getPasienByNik(String nik) {
@@ -38,9 +38,9 @@ public class PasienServiceImpl implements PasienService {
                 HttpMethod.GET, request,
                 PatientResponse.class);
         if (response.getStatusCode().equals(HttpStatus.OK) && response.getBody().getEntry() != null) {
-            Pasien pasien = pasienDao.findByNoIdentitas(nik);
-            pasien.setIdPasienIhs(response.getBody().getEntry().get(0).getResource().getId());
-            pasienDao.save(pasien);
+            Users users = usersDao.findByNoIdentitas(nik);
+            users.setIdPasienIhs(response.getBody().getEntry().get(0).getResource().getId());
+            usersDao.save(users);
         }
         return response.getBody();
     }
