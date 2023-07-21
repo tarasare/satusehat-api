@@ -1,9 +1,11 @@
 package id.co.klikdata.satusehat.service;
 
 import id.co.klikdata.satusehat.dao.PendaftaranDao;
+import id.co.klikdata.satusehat.dao.KodeIhsDao;
 import id.co.klikdata.satusehat.dao.SettingsDao;
 import id.co.klikdata.satusehat.dto.Encounter.request.EncounterRequest;
 import id.co.klikdata.satusehat.dto.Encounter.response.EncounterResponse;
+import id.co.klikdata.satusehat.entity.KodeIhs;
 import id.co.klikdata.satusehat.entity.Pendaftaran;
 import id.co.klikdata.satusehat.entity.Settings;
 import id.co.klikdata.satusehat.utils.SatuSehat;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -27,6 +28,7 @@ public class EncounterServiceImpl implements EncounterService {
     private final RestTemplate restTemplate;
     private final SatuSehatService satuSehatService;
     private final SettingsDao settingsDao;
+    private final KodeIhsDao kodeIhsDao;
 
     @Override
     public EncounterResponse create(String nomor) {
@@ -52,16 +54,11 @@ public class EncounterServiceImpl implements EncounterService {
         participants.add(new EncounterRequest.Participant(types, individual));
         req.setParticipant(participants);
 
-        // format tanggal
-//        pendaftaran.getTglBerobat()
-//        LocalDateTime localDateTime = LocalDateTime.parse(pendaftaran.getTglBerobat().toString(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-//        ZoneOffset offset = ZoneOffset.ofHours();
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         OffsetDateTime offsetDateTime = pendaftaran.getTglBerobat().atOffset(ZoneOffset.ofHours(7));
         String tanggalBerobat = offsetDateTime.format(outputFormatter);
 
 
-//        System.out.println(tanggalBerobat);
         req.setPeriod(new EncounterRequest.Period(tanggalBerobat));
 
 
@@ -91,8 +88,10 @@ public class EncounterServiceImpl implements EncounterService {
                 EncounterResponse.class);
 
         if (response.getStatusCode().equals(HttpStatus.CREATED)) {
-            pendaftaran.setIdIhs(String.valueOf(response.getBody().getId()));
-            pendaftaranDao.save(pendaftaran);
+            KodeIhs ihs = new KodeIhs();
+            ihs.setNoRegister(pendaftaran.getNoRegister());
+            ihs.setIhsEncounter(String.valueOf(response.getBody().getId()));
+            kodeIhsDao.save(ihs);
         }
 
         return response.getBody();

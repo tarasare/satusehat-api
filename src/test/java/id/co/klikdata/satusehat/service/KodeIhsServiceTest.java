@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import id.co.klikdata.satusehat.dto.PatientResponse;
 
 @SpringBootTest
-public class SatuSehatServiceTest {
+public class KodeIhsServiceTest {
     @Autowired
     private PasienService pasienService;
 

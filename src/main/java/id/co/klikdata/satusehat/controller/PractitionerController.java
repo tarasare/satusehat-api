@@ -1,10 +1,7 @@
 package id.co.klikdata.satusehat.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import id.co.klikdata.satusehat.dto.PractitionerResponse;
 import id.co.klikdata.satusehat.service.PractitionerService;
@@ -16,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class PractitionerController {
     private final PractitionerService dokterService;
 
-    @GetMapping("/{nik}")
+    @PostMapping("/{nik}")
     public ResponseEntity<PractitionerResponse> getDokterByNik(@PathVariable("nik") String nik) {
         return ResponseEntity.ok(dokterService.getDokterByNik(nik));
     }

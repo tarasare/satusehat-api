@@ -5,7 +5,7 @@ spring:
   datasource:
     username: support
     password: Supp0rt
-    url: jdbc:mysql://192.168.10.159/db_e
+    url: jdbc:mysql://10.144.233.77/db_e
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -16,5 +16,5 @@ spring:
         format_sql: true
 
 satusehat:
-  clientId: hUvb6wOJuteso9wHR83ie8olgxGdh5p04AuTDLoa8RAM5974
-  clientSecret: cACVrJF2TbGHGeSXWS6TxxLFrC2KaigvVpaOpN1wMD87JZEI8dkNuZ3GWpDLQAFR
+  clientId: ZIunZZUyuOpKYbe0rqRNYsRH6lEL9ZQP7l1U4ChRTJDSxhSA
+  clientSecret: 0vp7YJbZQE0ygYBI7AaWjvgV7ZRIWj3dRrDdVnbzxwGp6bkUxevAb6YXrMWv5ipT
