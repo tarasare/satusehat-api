@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -16,6 +17,8 @@ import id.co.klikdata.satusehat.dto.PatientResponse;
 import id.co.klikdata.satusehat.entity.Users;
 import id.co.klikdata.satusehat.utils.SatuSehat;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +46,16 @@ public class PasienServiceImpl implements PasienService {
             usersDao.save(users);
         }
         return response.getBody();
+    }
+
+    @Scheduled(fixedRate = 5000)
+    public void scheduleFixedDelayTask() {
+        System.out.println("RUN!");
+        List<Users> data = usersDao.findByGrupUserAndIdPasienIhs(2, null);
+        data.forEach(item -> {
+            System.out.println(item.getNamaUser());
+            getPasienByNik(item.getNoIdentitas());
+        });
     }
 
 }

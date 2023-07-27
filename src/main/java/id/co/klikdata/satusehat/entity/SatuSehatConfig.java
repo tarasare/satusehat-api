@@ -4,6 +4,8 @@ package id.co.klikdata.satusehat.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "tbl_config_satusehat")
@@ -36,6 +38,12 @@ public class SatuSehatConfig {
 
     @Column(name = "isactive")
     private boolean isActive;
+
+    @Column(name = "access_token")
+    private String accessToken;
+
+
+    private LocalDateTime updatedAt;
 
 }
 
