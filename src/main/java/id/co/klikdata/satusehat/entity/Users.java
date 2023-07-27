@@ -76,11 +76,13 @@ public class Users {
     private Integer grupUser;
 
     private String email;
-    // private String alamat;
 
     @JsonProperty("id_pasien_ihs")
     private String idPasienIhs;
 
     @JsonProperty("id_petugas_ihs")
     private String idPetugasIhs;
+
+    @Column(name = "isdefault")
+    private Integer isdefault;
 }

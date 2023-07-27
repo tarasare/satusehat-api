@@ -3,6 +3,7 @@ package id.co.klikdata.satusehat.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -43,6 +44,7 @@ public class SatuSehatConfig {
     private String accessToken;
 
 
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
 }

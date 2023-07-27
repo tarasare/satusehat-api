@@ -24,4 +24,7 @@ public class Ruangan {
     @ManyToOne
     @JoinColumn(name = "id_grup_ruangan")
     private GrupRuangan grupRuangan;
+
+    @Column(name = "isactive")
+    private Integer isactive;
 }

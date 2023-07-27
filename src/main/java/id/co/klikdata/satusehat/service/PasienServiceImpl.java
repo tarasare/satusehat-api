@@ -48,14 +48,6 @@ public class PasienServiceImpl implements PasienService {
         return response.getBody();
     }
 
-    @Scheduled(fixedRate = 5000)
-    public void scheduleFixedDelayTask() {
-        System.out.println("RUN!");
-        List<Users> data = usersDao.findByGrupUserAndIdPasienIhs(2, null);
-        data.forEach(item -> {
-            System.out.println(item.getNamaUser());
-            getPasienByNik(item.getNoIdentitas());
-        });
-    }
+
 
 }

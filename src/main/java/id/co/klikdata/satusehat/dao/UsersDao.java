@@ -15,4 +15,8 @@ public interface UsersDao extends JpaRepository<Users, Long> {
     List<Users> findByGrupUser(int i);
 
     List<Users> findByGrupUserAndIdPasienIhs(int i, Object o);
+
+    List<Users> findByGrupUserAndIdPetugasIhs(int i, Object o);
+
+    List<Users> findByGrupUserAndIsdefaultAndIdPetugasIhs(int i, int i1, Object o);
 }
