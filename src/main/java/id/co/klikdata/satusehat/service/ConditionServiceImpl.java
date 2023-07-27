@@ -41,7 +41,6 @@ public class ConditionServiceImpl implements ConditionService {
         Diagnosa diagnosa = diagnosaDao.findByNoRegister(pendaftaran.getNoRegister());
         KodeIhs kode = kodeIhsDao.findById(pendaftaran.getNoRegister()).get();
 
-        System.out.println(diagnosa);
         ConditionRequest req = new ConditionRequest();
 
         req.setResourceType("Condition");
