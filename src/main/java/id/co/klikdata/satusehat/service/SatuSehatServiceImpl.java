@@ -35,9 +35,8 @@ public class SatuSehatServiceImpl implements SatuSehatService {
     private String clientSecret;
 
     @Override
-
     public TokenResponse getAccessToken() {
-        SatuSehatConfig settings = satuSehatConfigDao.findByIsactive(true);
+        SatuSehatConfig settings = satuSehatConfigDao.findByIsActive(true);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
@@ -52,7 +51,7 @@ public class SatuSehatServiceImpl implements SatuSehatService {
 
     @Override
     public String getBaseUrl() {
-        SatuSehatConfig settings = satuSehatConfigDao.findByIsactive(true);
+        SatuSehatConfig settings = satuSehatConfigDao.findByIsActive(true);
         return settings.getBaseUrl();
     }
 

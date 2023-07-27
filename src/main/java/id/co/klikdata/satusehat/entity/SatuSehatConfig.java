@@ -34,7 +34,6 @@ public class SatuSehatConfig {
     @Column(name = "secret_id")
     private String secretId;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "isactive")
     private boolean isActive;
 
