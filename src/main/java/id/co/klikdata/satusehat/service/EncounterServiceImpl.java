@@ -83,7 +83,7 @@ public class EncounterServiceImpl implements EncounterService {
         headers.setBearerAuth(token);
         HttpEntity<EncounterRequest> request = new HttpEntity<>(req, headers);
         ResponseEntity<EncounterResponse> response = restTemplate.exchange(
-                SatuSehat.URL_ENCOUNTER,
+                satuSehatService.getBaseUrl() + "/fhir-r4/v1/Encounter",
                 HttpMethod.POST, request,
                 EncounterResponse.class);
 

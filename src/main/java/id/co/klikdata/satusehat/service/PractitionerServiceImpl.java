@@ -33,7 +33,7 @@ public class PractitionerServiceImpl implements PractitionerService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<PractitionerResponse> response = restTemplate.exchange(
-                SatuSehat.URL_PRACTITIONER + "?identifier=https://fhir.kemkes.go.id/id/nik|"
+                satuSehatService.getBaseUrl() + "/fhir-r4/v1/Practitioner?identifier=https://fhir.kemkes.go.id/id/nik|"
                         + nik,
                 HttpMethod.GET, request,
                 PractitionerResponse.class);

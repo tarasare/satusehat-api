@@ -33,7 +33,7 @@ public class PasienServiceImpl implements PasienService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<PatientResponse> response = restTemplate.exchange(
-                SatuSehat.URL_PASIEN + "?identifier=https://fhir.kemkes.go.id/id/nik|"
+                satuSehatService.getBaseUrl() + "/fhir-r4/v1/Patient?identifier=https://fhir.kemkes.go.id/id/nik|"
                         + nik,
                 HttpMethod.GET, request,
                 PatientResponse.class);

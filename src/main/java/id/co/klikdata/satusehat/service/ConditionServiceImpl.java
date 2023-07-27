@@ -36,7 +36,6 @@ public class ConditionServiceImpl implements ConditionService {
 
     @Override
     public ConditionResponse create(String nomor) {
-        Settings settings = settingsDao.findAll().get(0);
         Pendaftaran pendaftaran = pendaftaranDao.findById(new BigInteger(nomor)).get();
         Diagnosa diagnosa = diagnosaDao.findByNoRegister(pendaftaran.getNoRegister());
         KodeIhs kode = kodeIhsDao.findById(pendaftaran.getNoRegister()).get();
@@ -71,7 +70,7 @@ public class ConditionServiceImpl implements ConditionService {
         headers.setBearerAuth(token);
         HttpEntity<ConditionRequest> request = new HttpEntity<>(req, headers);
         ResponseEntity<ConditionResponse> response = restTemplate.exchange(
-                SatuSehat.URL_CONDITION,
+                satuSehatService.getBaseUrl() + "/fhir-r4/v1/Condition",
                 HttpMethod.POST, request,
                 ConditionResponse.class);
 

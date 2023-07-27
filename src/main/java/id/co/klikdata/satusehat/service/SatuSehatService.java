@@ -4,4 +4,6 @@ import id.co.klikdata.satusehat.dto.TokenResponse;
 
 public interface SatuSehatService {
     TokenResponse getAccessToken();
+
+    String getBaseUrl();
 }

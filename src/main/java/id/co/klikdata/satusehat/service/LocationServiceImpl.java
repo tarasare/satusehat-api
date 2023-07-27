@@ -80,7 +80,7 @@ public class LocationServiceImpl implements LocationService {
         headers.setBearerAuth(token);
         HttpEntity<LocationRequest> request = new HttpEntity<>(req, headers);
         ResponseEntity<LocationResponse> response = restTemplate.exchange(
-                SatuSehat.URL_LOCATION,
+                satuSehatService.getBaseUrl() + "/fhir-r4/v1/Location",
                 HttpMethod.POST, request,
                 LocationResponse.class);
 

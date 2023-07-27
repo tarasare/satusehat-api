@@ -85,7 +85,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         headers.setBearerAuth(token);
         HttpEntity<OrganizationRequest> request = new HttpEntity<>(req, headers);
         ResponseEntity<OrganizationResponse> response = restTemplate.exchange(
-                SatuSehat.URL_ORGANIZATION,
+                satuSehatService.getBaseUrl() + "/fhir-r4/v1/Organization",
                 HttpMethod.POST, request,
                 OrganizationResponse.class);
 
